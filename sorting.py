@@ -1,10 +1,15 @@
-def merge(ary, start, partition, end):
+#!/usr/bin/env python
+'''Sorting implementations in Python'''
+__author__ = "Jordan Anderson"
+__email__ = "jander2261@gmail.com"
+
+def _merge(ary, start, partition, end):
+    # merge sorted sub-arrays
     lAry = ary[start:partition]
     rAry = ary[partition:end]
 
     lAry.append(float('inf'))
     rAry.append(float('inf'))
-
     lIndex = 0
     rIndex = 0
 
@@ -17,7 +22,9 @@ def merge(ary, start, partition, end):
             rIndex += 1
     return
 
-def mergeSort(ary, start = None, end = None):
+
+def _merge_sort_core(ary, start = None, end = None):
+    # split array into sub arrays for sorting, then merge
     if start is None:
         start = 0
     if end is None:
@@ -26,11 +33,18 @@ def mergeSort(ary, start = None, end = None):
         return
 
     partition = (start + end) // 2
-    mergeSort(ary, start, partition)
-    mergeSort(ary, partition, end)
-    merge(ary, start, partition, end)
+    _merge_sort_core(ary, start, partition)
+    _merge_sort_core(ary, partition, end)
+    _merge(ary, start, partition, end)
 
-# main
-ary = [7, 5, 2, 10, 17, 1, -5, 1, 0, 7, -18]
-mergeSort(ary)
-print(ary)
+
+def merge_sort(ary):
+    '''Sorts an array of numbers
+    
+    Keyword arguments:
+    ary -- list of unsorted numbers
+    '''
+
+    if ((not ary is None) and (len(ary) > 1)):
+        _merge_sort_core(ary)
+    return
